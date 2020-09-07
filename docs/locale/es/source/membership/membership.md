@@ -1,28 +1,28 @@
-# Membership Service Provider (MSP)
+# Proveedor de Servicios de Membresía (MSP)
 
-## Why do I need an MSP?
+## ¿Por qué necesito un MSP?
 
-Because Fabric is a permissioned network, blockchain participants need a way to prove their identity to the rest of the network in order to transact on the network. If you've read through the documentation on [Identity](../identity/identity.html)
-you've seen how a Public Key Infrastructure (PKI) can provide verifiable identities through a chain of trust. How is that chain of trust used by the blockchain network?
+Dado que Fabric es una red autorizada, los participantes en la cadena de bloques necesitan una forma de probar su identidad al resto de la red para poder realizar transacciones en la red. Si has leído la documentación sobre [Identity](../identity/identity.html)
+has visto cómo una Infraestructura de LLave Pública (PKI) puede proporcionar identidades verificables a través de una cadena de confianza. ¿Cómo se utiliza esa cadena de confianza en la red de cadenas de bloques?
 
-Certificate Authorities issue identities by generating a public and private key which forms a key-pair that can be used to prove identity. Because a private key can never be shared publicly, a mechanism is required to enable that proof which is where the MSP comes in. For example, a peer uses its private key to digitally sign, or endorse, a transaction.  The MSP on the ordering service contains the peer's public key which is then used to verify that the signature attached to the transaction is valid. The private key is used to produce a signature on a transaction that only the corresponding public key, that is part of an MSP, can match. Thus, the MSP is the mechanism that allows that identity to be trusted and recognized by the rest of the network without ever revealing the member’s private key.
+Las autoridades de certificación emiten identidades generando una llave pública y privada que forma un par de llaves que pueden utilizarse para probar la identidad. Dado que una llave privada nunca puede ser compartida públicamente, se requiere un mecanismo que permita esa prueba, que es donde entra el MSP. Por ejemplo, un par utiliza su llave privada para firmar digitalmente, o avalar, una transacción.  El MSP del servicio de ordenamiento contiene la llave pública del par que se utiliza para verificar que la firma adjunta a la transacción es válida. La llave privada se utiliza para producir una firma en una transacción que sólo puede coincidir con la llave pública correspondiente, que forma parte de un MSP. Así pues, el MSP es el mecanismo que permite que esa identidad sea fiable y reconocida por el resto de la red sin revelar nunca la llave privada del miembro.
 
-Recall from the credit card scenario in the Identity topic that the Certificate Authority is like a card provider — it dispenses many different types of verifiable identities. An MSP, on the other hand, determines which credit card providers are accepted at the store. In this way, the MSP turns an identity (the credit card) into a role (the ability to buy things at the store).
+Recordemos del escenario de la tarjeta de crédito en el tema de la identidad que la Autoridad de Certificación es como un proveedor de tarjetas - suministra muchos tipos diferentes de identidades verificables. Un MSP, por otro lado, determina qué proveedores de tarjetas de crédito son aceptados en la tienda. De esta manera, el MSP convierte una identidad (la tarjeta de crédito) en un rol (la capacidad de comprar cosas en la tienda).
 
-This ability to turn verifiable identities into roles is fundamental to the way Fabric networks function, since it allows organizations, nodes, and channels the ability establish MSPs that determine who is allowed to do what at the organization, node, and channel level.
+Esta capacidad de convertir las identidades verificables en roles es fundamental para el funcionamiento de las redes de Fabric, ya que permite que las organizaciones, los nodos y los canales establezcan MSPs que determinen quién está autorizado a hacer qué a nivel de la organización, el nodo y el canal.
 
 ![MSP1a](./membership.msp.diagram.png)
 
-*Identities are similar to your credit cards that are used to prove you can pay. The MSP is similar to the list of accepted credit cards.*
+*Las identidades son similares a sus tarjetas de crédito que se usan para probar que puede pagar. La MSP es similar a la lista de tarjetas de crédito aceptadas.*
 
-Consider a consortium of banks that operate a blockchain network. Each bank operates peer and ordering nodes, and the peers endorse transactions submitted to the network. However, each bank would also have departments and account holders. The account holders would belong to each organization, but would not run nodes on the network. They would only interact with the system from their mobile or web application. So how does the network recognize and differentiate these identities? A CA was used to create the identities, but like the card example, those identities can't just be issued, they need to be recognized by the network. MSPs are used to define the organizations that are trusted by the network members. MSPs are also the mechanism that provide members with a set of roles and permissions within the network. Because the MSPs defining these organizations are known to the members of a network, they can then be used to validate that network entities that attempt to perform actions are allowed to.
+Considere un consorcio de bancos que operan una red de cadenas de bloques. Cada banco opera nodos peer y de ordenamiento, y los pares endorsan las transacciones presentadas a la red. Sin embargo, cada banco también tendría departamentos y titulares de cuentas. Los titulares de las cuentas pertenecerían a cada organización, pero no dirigirían los nodos de la red. Sólo interactuarían con el sistema desde su móvil o aplicación web. Entonces, ¿cómo reconoce y diferencia la red estas identidades? Se utilizaba una CA para crear las identidades, pero como en el ejemplo de la tarjeta, esas identidades no pueden ser simplemente emitidas, sino que deben ser reconocidas por la red. Las CA se utilizan para definir las organizaciones en las que confían los miembros de la red. Los MSP son también el mecanismo que proporciona a los miembros un conjunto de funciones y permisos dentro de la red. Dado que los miembros de una red conocen los MSP que definen estas organizaciones, pueden utilizarse para validar que las entidades de la red que intentan realizar acciones están autorizadas a hacerlo.
 
-Finally, consider if you want to join an _existing_ network, you need a way to turn your identity into something that is recognized by the network. The MSP is the mechanism that enables you to participate on a permissioned blockchain network. To transact on a Fabric network a member needs to:
+Por último, considere que si quiere unirse a una _red_ existente, necesita una forma de convertir su identidad en algo que sea reconocido por la red. El MSP es el mecanismo que le permite participar en una red de cadenas de bloques permitidas. Para realizar una transacción en una red de Fabric, un miembro debe hacer:
 
-1. Have an identity issued by a CA that is trusted by the network.
-2. Become a member of an _organization_ that is recognized and approved by the network members. The MSP is how the identity is linked to the membership of an organization. Membership is achieved by adding the member's public key (also known as certificate, signing cert, or signcert) to the organization’s MSP.
-3. Add the MSP to either a [consortium](../glossary.html#consortium) on the network or a channel.
-4. Ensure the MSP is included in the [policy](../policies/policies.html) definitions on the network.
+1. Tener una identidad emitida por un CA que sea de confianza para la red.
+2. Convertirse en miembro de una _organización_ reconocida y aprobada por los miembros de la red. La MSP es la forma en que la identidad está vinculada a la pertenencia a una organización. La afiliación se logra añadiendo la llave pública del miembro (también conocida como certificado, certificado de firma o signcert) al MSP de la organización.
+3. Añadir el MSP a un  [consortium](../glossary.html#consortium) en la red o en un canal.
+4. Asegurarse de que el MSP está incluido en la [policy](../policies/policies.html) de definiciones en la red.
 
 ## What is an MSP?
 
