@@ -21,10 +21,10 @@ Por último, considere que si quiere unirse a una _red_ existente, necesita una 
 
 1. Tener una identidad emitida por un CA que sea de confianza para la red.
 2. Convertirse en miembro de una _organización_ reconocida y aprobada por los miembros de la red. La MSP es la forma en que la identidad está vinculada a la pertenencia a una organización. La afiliación se logra añadiendo la llave pública del miembro (también conocida como certificado, certificado de firma o signcert) al MSP de la organización.
-3. Añadir el MSP a un  [consortium](../glossary.html#consortium) en la red o en un canal.
+3. Añadir el MSP a un [Consorcio](../glossary.html#consorcio) en la red o en un canal.
 4. Asegurarse de que el MSP está incluido en la [policy](../policies/policies.html) de definiciones en la red.
 
-## What is an MSP?
+## Qúe es el MSP?
 
 Despite its name, the Membership Service Provider does not actually provide anything. Rather, the implementation of the MSP requirement is a set of folders that are added to the configuration of the network and is used to define an organization both inwardly (organizations decide who its admins are) and outwardly (by allowing other organizations to validate that entities have the authority to do what they are attempting to do).  Whereas Certificate Authorities generate the certificates that represent identities, the MSP contains a list of permissioned identities.
 
