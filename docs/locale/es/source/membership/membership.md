@@ -13,7 +13,7 @@ Esta capacidad de convertir las identidades verificables en roles es fundamental
 
 ![MSP1a](./membership.msp.diagram.png)
 
-*Las identidades son similares a sus tarjetas de crédito que se usan para probar que puede pagar. La MSP es similar a la lista de tarjetas de crédito aceptadas.*
+*Las identidades son similares a sus tarjetas de crédito que se usan para probar que puede pagar. El MSP es similar a la lista de tarjetas de crédito aceptadas.*
 
 Considere un consorcio de bancos que operan una red de cadenas de bloques. Cada banco opera nodos peer y de ordenamiento, y los pares endorsan las transacciones presentadas a la red. Sin embargo, cada banco también tendría departamentos y titulares de cuentas. Los titulares de las cuentas pertenecerían a cada organización, pero no dirigirían los nodos de la red. Sólo interactuarían con el sistema desde su móvil o aplicación web. Entonces, ¿cómo reconoce y diferencia la red estas identidades? Se utilizaba una CA para crear las identidades, pero como en el ejemplo de la tarjeta, esas identidades no pueden ser simplemente emitidas, sino que deben ser reconocidas por la red. Las CA se utilizan para definir las organizaciones en las que confían los miembros de la red. Los MSP son también el mecanismo que proporciona a los miembros un conjunto de funciones y permisos dentro de la red. Dado que los miembros de una red conocen los MSP que definen estas organizaciones, pueden utilizarse para validar que las entidades de la red que intentan realizar acciones están autorizadas a hacerlo.
 
@@ -26,31 +26,31 @@ Por último, considere que si quiere unirse a una _red_ existente, necesita una 
 
 ## Qúe es el MSP?
 
-A pesar de su nombre, el Proveedor de Servicios de Membresia no proporciona nada en realidad. Más bien, El requerimiento, para implementar el MSP es un conjunto de carpetas que se añaden a la configuración de la red y se utiliza para definir una organización tanto internamente (las organizaciones deciden quiénes son sus administradores) como externamente (permitiendo a otras organizaciones validar que las entidades tienen autoridad para hacer lo que intentan hacer).  Mientras que las autoridades de certificación generan los certificados que representan las identidades, el MSP contiene una lista de identidades permitidas.
+A pesar de su nombre, el Proveedor de Servicios de Membresia no proporciona nada en realidad. Más bien, el requerimiento, para implementar el MSP es un conjunto de carpetas que se añaden a la configuración de la red y se utiliza para definir una organización tanto internamente (las organizaciones deciden quiénes son sus administradores) como externamente (permitiendo a otras organizaciones validar que las entidades tienen autoridad para hacer lo que intentan hacer).  Mientras que las autoridades de certificación generan los certificados que representan las identidades, el MSP contiene una lista de identidades permitidas.
 
 El MSP identifica qué CA raíz e intermedia se aceptan para definir los miembros de un dominio de confianza mediante la enumeración de las identidades de sus miembros, o identificando qué CA están autorizadas a emitir identidades válidas para sus miembros.
 
 Pero el poder de un MSP va más allá de simplemente listar quién es un participante de la red o miembro de un canal. Es el MSP es el que convierte una identidad en un **rol** identificando los privilegios específicos que un actor tiene en un nodo o canal. Tenga en cuenta que cuando un usuario se registra en un CA de Fabric, debe asociarse con el usuario un rol de administrador, par, cliente, ordenante o miembro. Por ejemplo, las identidades registradas con el rol de "par" deben, naturalmente, ser dadas a un par. Del mismo modo, las identidades registradas con la función de "administrador" deben darse a los administradores de la organización. Más adelante en el tema se profundizará en la importancia de estas funciones.
 
-In addition, an MSP can allow for the identification of a list of identities that have been revoked --- as discussed in the [Identity](../identity/identity.html) documentation --- but we will talk about how that process also extends to an MSP.
+Además, un MSP puede permitir la identificación de una lista de identidades que han sido revocadas --- como se discute en la documentación [Identity](../identity/identity.html) --- pero hablaremos de cómo ese proceso también se extiende a un MSP.
 
-## MSP domains
+## Dominios del MSP
 
-MSPs occur in two domains in a blockchain network:
+Los MSP se producen en dos dominios en la red blockchain:
 
-* Locally on an actor's node (**local MSP**)
-* In channel configuration (**channel MSP**)
+* Localmente en un nodo actor (**MSP local**)
+* En la configuración del canal (**MSP canal**)
 
-The key difference between local and channel MSPs is not how they function -- both turn identities into roles -- but their **scope**. Each MSP lists roles and permissions at a particular level of administration.
+La diferencia clave entre los MSPs locales y los de canal no es cómo funcionan - ambos convierten las identidades en roles - sino su **espacio**. Cada MSP enumera los roles y permisos en un nivel particular de administración.
 
-### Local MSPs
+### MSPs Local 
 
-**Local MSPs are defined for clients and for nodes (peers and orderers)**.
-Local MSPs define the permissions for a node (who are the peer admins who can operate the node, for example). The local MSPs of clients (the account holders in the banking scenario above), allow the user to authenticate itself in its transactions as a member of a channel (e.g. in chaincode transactions), or as the owner of a specific role into the system such as an organization admin, for example, in configuration transactions.
+**Los MSP locales se definen para los clientes y para los nodos (peers y ordenantes)**.
+Los MSP locales definen los permisos de un nodo (quiénes son los pares administradores que pueden operar el nodo, por ejemplo). Los MSP locales de los clientes (los titulares de las cuentas en el escenario bancario anterior), permiten al usuario autenticarse en sus transacciones como miembro de un canal (por ejemplo, en las transacciones de los chaincodes), o como propietario de una función específica en el sistema como administrador de una organización, por ejemplo, en las transacciones de configuración.
 
-**Every node must have a local MSP defined**, as it defines who has administrative or participatory rights at that level (peer admins will not necessarily be channel admins, and vice versa).  This allows for authenticating member messages outside the context of a channel and to define the permissions over a particular node (who has the ability to install chaincode on a peer, for example). Note that one or more nodes can be owned by an organization. An MSP defines the organization admins. And the organization, the admin of the organization, the admin of the node, and the node itself should all have the same root of trust.
+**Cada nodo debe tener un MSP local definido**, ya que define quién tiene derechos administrativos o de participación a ese nivel (los pares administradores no serán necesariamente administradores de canal, y viceversa).  Esto permite autenticar los mensajes de los miembros fuera del contexto de un canal y definir los permisos sobre un nodo determinado (quién tiene la capacidad de instalar un chaincode en un par, por ejemplo). Obsérvese que uno o más nodos pueden ser propiedad de una organización. Un MSP define los administradores de la organización. Y la organización, el administrador de la organización, el administrador del nodo y el propio nodo deben tener la misma raíz de confianza.
 
-An orderer local MSP is also defined on the file system of the node and only applies to that node. Like peer nodes, orderers are also owned by a single organization and therefore have a single MSP to list the actors or nodes it trusts.
+También se define un MSP ordenante local en el sistema de archivos del nodo y sólo se aplica a ese nodo. Al igual que los nodos pares, los ordenantes también son propiedad de una única organización y por lo tanto tienen un único MSP para enumerar los actores o nodos en los que confía.
 
 ### Channel MSPs
 
