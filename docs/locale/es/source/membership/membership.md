@@ -41,27 +41,26 @@ Los MSP se producen en dos dominios en la red blockchain:
 * Localmente en un nodo actor (**MSP local**)
 * En la configuración del canal (**MSP canal**)
 
-La diferencia clave entre los MSPs locales y los de canal no es cómo funcionan - ambos convierten las identidades en roles - sino su **espacio**. Cada MSP enumera los roles y permisos en un nivel particular de administración.
+La diferencia clave entre los MSPs locales y los de canal no es cómo funcionan - ambos convierten las identidades en roles - sino su **alcance**. Cada MSP enumera los roles y permisos en un nivel particular de administración.
 
 ### MSPs Local 
 
-**Los MSP locales se definen para los clientes y para los nodos (peers y ordenantes)**.
+**Los MSP locales se definen para los clientes y para los nodos (peers y orderers)**.
 Los MSP locales definen los permisos de un nodo (quiénes son los pares administradores que pueden operar el nodo, por ejemplo). Los MSP locales de los clientes (los titulares de las cuentas en el escenario bancario anterior), permiten al usuario autenticarse en sus transacciones como miembro de un canal (por ejemplo, en las transacciones de los chaincodes), o como propietario de una función específica en el sistema como administrador de una organización, por ejemplo, en las transacciones de configuración.
 
 **Cada nodo debe tener un MSP local definido**, ya que define quién tiene derechos administrativos o de participación a ese nivel (los pares administradores no serán necesariamente administradores de canal, y viceversa).  Esto permite autenticar los mensajes de los miembros fuera del contexto de un canal y definir los permisos sobre un nodo determinado (quién tiene la capacidad de instalar un chaincode en un par, por ejemplo). Obsérvese que uno o más nodos pueden ser propiedad de una organización. Un MSP define los administradores de la organización. Y la organización, el administrador de la organización, el administrador del nodo y el propio nodo deben tener la misma raíz de confianza.
 
-También se define un MSP ordenante local en el sistema de archivos del nodo y sólo se aplica a ese nodo. Al igual que los nodos pares, los ordenantes también son propiedad de una única organización y por lo tanto tienen un único MSP para enumerar los actores o nodos en los que confía.
+También se define un MSP ordenante local en el sistema de archivos del nodo y sólo se aplica a ese nodo. Al igual que los nodos peers, los orderers también son propiedad de una única organización y por lo tanto tienen un único MSP para enumerar los actores o nodos en los que confía.
 
-### Channel MSPs
+### MSPs de Canal
 
-In contrast, **channel MSPs define administrative and participatory rights at the channel level**. Peers and ordering nodes on an application channel share the same view of channel MSPs, and will therefore be able to correctly authenticate the channel participants. This means that if an organization wishes to join the channel, an MSP incorporating the chain of trust for the organization's members would need to be included in the channel configuration. Otherwise transactions originating from this organization's identities will be rejected. Whereas local MSPs are represented as a folder structure on the file system, channel MSPs are described in a channel configuration.
-
+En contraste, **los MSP del canal definen los derechos administrativos y de participación a nivel del canal**. Los nodos Peers y los ordering en un canal de aplicación se comparten la misma visión de los MSP del canal y, por lo tanto, podrán autenticar correctamente a los participantes del canal. Esto significa que si una organización desea entrar en el canal, deberá incluirse en la configuración del canal un MSP que incorpore la cadena de confianza para los miembros de la organización. De lo contrario, las transacciones que se originen a partir de las identidades de esta organización serán rechazadas. Mientras que los MSP locales se representan como una estructura de carpetas en el sistema de archivos, los MSP del canal se describen en una configuración del canal.
 ![MSP1d](./ChannelMSP.png)
 
-*Snippet from a channel config.json file that includes two organization MSPs.*
+*Recorte de un archivo config.json del canal que incluye dos MSP de la organización.*
 
-**Channel MSPs identify who has authorities at a channel level**.
-The channel MSP defines the _relationship_ between the identities of channel members (which themselves are MSPs) and the enforcement of channel level policies. Channel MSPs contain the MSPs of the organizations of the channel members.
+**Los MSPs de canal identifican quién tiene las autorizaciones a nivel de canal**.
+El MSP del canal define la _relación_ entre las identidades de los miembros del canal (que a su vez son MSP) y la aplicación de las políticas a nivel del canal. Los MSP del canal contienen los MSP de las organizaciones de los miembros del canal.
 
 **Every organization participating in a channel must have an MSP defined for it**. In fact, it is recommended that there is a one-to-one mapping between organizations and MSPs. The MSP defines which members are empowered to act on behalf of the organization. This includes configuration of the MSP itself as well as approving administrative tasks that the organization has role, such as adding new members to a channel. If all network members were part of a single organization or MSP, data privacy is sacrificed. Multiple organizations facilitate privacy by segregating ledger data to only channel members. If more granularity is required within an organization, the organization can be further divided into organizational units (OUs) which we describe in more detail later in this topic.
 
