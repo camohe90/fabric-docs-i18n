@@ -1,6 +1,6 @@
-# Membership Service Provider (MSP)
+# Proveedor de servicios de membresia (MSP)
 
-## Why do I need an MSP?
+## ¿Por qué necesito un MSP?
 
 Because Fabric is a permissioned network, blockchain participants need a way to prove their identity to the rest of the network in order to transact on the network. If you've read through the documentation on [Identity](../identity/identity.html)
 you've seen how a Public Key Infrastructure (PKI) can provide verifiable identities through a chain of trust. How is that chain of trust used by the blockchain network?
